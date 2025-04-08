@@ -2,9 +2,16 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import configuration from './config/configuration';
+
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { RestaurantsModule } from './restaurants/restaurants.module';
+
+import { User } from './users/user.entity';
+import { Restaurant } from './restaurants/restaurant.entity';
+import { Meal } from './meals/meal.entity';
+// import { Order } from './restaurants/order.entity';
+// import { OrderItem } from './restaurants/order-item.entity';
 
 @Module({
   imports: [
@@ -20,12 +27,12 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
         password: config.get('database.password'),
         database: config.get('database.name'),
         synchronize: true,
-        autoLoadEntities: true,
+        entities: [User, Restaurant, Meal],
       }),
     }),
     AuthModule,
     UsersModule,
-    RestaurantsModule
+    RestaurantsModule,
   ],
 })
 export class AppModule {}

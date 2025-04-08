@@ -1,4 +1,3 @@
-// src/meals/meal.entity.ts
 import {
     Entity,
     PrimaryGeneratedColumn,
@@ -6,30 +5,30 @@ import {
     ManyToOne,
     CreateDateColumn,
     UpdateDateColumn,
-  } from 'typeorm';
-  import { Restaurant } from '../restaurants/restaurant.entity';
-  
-  @Entity('meals')
-  export class Meal {
+    JoinColumn,
+} from 'typeorm';
+import { Restaurant } from '../restaurants/restaurant.entity';
+
+@Entity('meals')
+export class Meal {
     @PrimaryGeneratedColumn('uuid')
     id: string;
-  
+
     @Column({ length: 150 })
     name: string;
-  
+
     @Column({ type: 'text', nullable: true })
     description: string;
-  
-    @Column({ type: 'numeric', precision: 10, scale: 2 })
+
+    @Column({ type: 'numeric', precision: 10, scale: 2, nullable: false })
     price: number;
-  
-    @ManyToOne(() => Restaurant, (restaurant) => restaurant.meals, { onDelete: 'CASCADE' })
+
+    @ManyToOne(() => Restaurant, (restaurant) => restaurant.meals)
     restaurant: Restaurant;
-  
+
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;
-  
+
     @UpdateDateColumn({ name: 'updated_at' })
     updatedAt: Date;
-  }
-  
+}
