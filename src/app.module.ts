@@ -10,6 +10,7 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
 import { User } from './users/user.entity';
 import { Restaurant } from './restaurants/restaurant.entity';
 import { Meal } from './meals/meal.entity';
+import { MealsModule } from './meals/meals.module';
 // import { Order } from './restaurants/order.entity';
 // import { OrderItem } from './restaurants/order-item.entity';
 
@@ -33,6 +34,7 @@ import { Meal } from './meals/meal.entity';
     AuthModule,
     UsersModule,
     RestaurantsModule,
+    MealsModule
   ],
 })
 export class AppModule {}

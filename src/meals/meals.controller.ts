@@ -4,58 +4,65 @@ import {
     Get,
     Patch,
     Delete,
-    Param,
     Body,
+    Param,
     UseGuards,
     Request,
     ParseUUIDPipe,
   } from '@nestjs/common';
   import { MealsService } from './meals.service';
-  import { JwtAuthGuard } from 'src/auth/gaurds/jwt_auth.gaurd';
+  import { JwtAuthGuard } from '../auth/gaurds/jwt_auth.gaurd';
   import { CreateMealDto } from './dto/create-meal.dto';
   import { UpdateMealDto } from './dto/update-meal.dto';
   import { Request as RequestProp } from 'express';
-  import { User } from 'src/users/user.entity';
+  import { User } from '../users/user.entity';
   
   @UseGuards(JwtAuthGuard)
-  @Controller()
+  @Controller('restaurants')
   export class MealsController {
     constructor(private readonly mealsService: MealsService) {}
   
-    @Post('/restaurants/:restaurantId/menu-items')
-    create(
+    // ✅ Create Meal
+    @Post(':restaurantId/menu-items')
+    async create(
       @Param('restaurantId', ParseUUIDPipe) restaurantId: string,
-      @Body() dto: CreateMealDto,
+      @Body() createMealDto: CreateMealDto,
       @Request() req: RequestProp,
     ) {
       const user = req.user as User;
-      return this.mealsService.create(restaurantId, dto, user);
+      return this.mealsService.create(restaurantId, createMealDto, user);
     }
   
-    @Get('/restaurants/:restaurantId/menu-items')
-    findByRestaurant(
+    // ✅ Get Meals by Restaurant
+    @Get(':restaurantId/menu-items')
+    async findByRestaurant(
       @Param('restaurantId', ParseUUIDPipe) restaurantId: string,
     ) {
       return this.mealsService.findByRestaurant(restaurantId);
     }
   
-    @Patch('/menu-items/:id')
-    update(
+    // ✅ Update Meal
+    @Patch('menu-items/:id')
+    async update(
       @Param('id', ParseUUIDPipe) id: string,
-      @Body() dto: UpdateMealDto,
-      @Request() req: RequestProp, // ✅ Added type
+      @Body() updateMealDto: UpdateMealDto,
+      @Request() req: RequestProp,
     ) {
       const user = req.user as User;
-      return this.mealsService.update(id, dto, user);
+      return this.mealsService.update(id, updateMealDto, user);
     }
   
-    @Delete('/menu-items/:id')
-    remove(
+    // ✅ Delete Meal
+    @Delete('menu-items/:id')
+    async remove(
       @Param('id', ParseUUIDPipe) id: string,
-      @Request() req: RequestProp, // ✅ Added type
+      @Request() req: RequestProp,
     ) {
       const user = req.user as User;
-      return this.mealsService.remove(id, user);
+      await this.mealsService.remove(id, user);
+      return {
+        message: 'Meal removed successfully!',
+      };
     }
   }
   
