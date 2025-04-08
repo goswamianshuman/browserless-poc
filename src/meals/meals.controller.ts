@@ -29,7 +29,7 @@ import {
       @Body() createMealDto: CreateMealDto,
       @Request() req: RequestProp,
     ) {
-      const user = req.user as User;
+      const user = req?.user as User;
       return this.mealsService.create(restaurantId, createMealDto, user);
     }
   

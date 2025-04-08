@@ -19,6 +19,10 @@ export class RestaurantsService {
     return this.restaurantsRepository.save(restaurant);
   }
 
+  async findAll(): Promise<Restaurant[]> {
+    return this.restaurantsRepository.find({ relations: ['owner'] }); //any fix nidded ?
+  }
+
   async findAllByOwner(ownerId: string): Promise<Restaurant[]> {
     return this.restaurantsRepository.find({ where: { owner: { id: ownerId } } });
   }

@@ -5,10 +5,28 @@ import { UpdateRestaurantDto } from './dto/update-restorant.dto';
 import { JwtAuthGuard } from '../auth/gaurds/jwt_auth.gaurd';
 import {Request as RequestProp} from 'express';
 import { User } from 'src/users/user.entity';
+import { RestaurantResponseDto } from './dto/response.dto';
 
 @Controller('restaurants')
 export class RestaurantsController {
   constructor(private readonly restaurantsService: RestaurantsService) {}
+
+  @Get()
+  async findAll(): Promise<RestaurantResponseDto[]> {
+    const rests = await this.restaurantsService.findAll();  
+    return rests.map(r => ({
+      id: r.id,
+      name: r.name,
+      description: r.description,
+      createdAt: r.createdAt,
+      updatedAt: r.updatedAt,
+      owner: {
+        id: r.owner.id,
+        name: r.owner.name,
+        email: r.owner.email,
+      },
+    }));
+  }
 
   @UseGuards(JwtAuthGuard)
   @Post()

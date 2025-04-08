@@ -11,8 +11,9 @@ import { User } from './users/user.entity';
 import { Restaurant } from './restaurants/restaurant.entity';
 import { Meal } from './meals/meal.entity';
 import { MealsModule } from './meals/meals.module';
-// import { Order } from './restaurants/order.entity';
-// import { OrderItem } from './restaurants/order-item.entity';
+import { OrdersModule } from './orders/orders.module';
+import { Order } from './orders/order.entity';
+import { OrderItem } from './order-items/order-items.entity';
 
 @Module({
   imports: [
@@ -28,13 +29,14 @@ import { MealsModule } from './meals/meals.module';
         password: config.get('database.password'),
         database: config.get('database.name'),
         synchronize: true,
-        entities: [User, Restaurant, Meal],
+        entities: [User, Restaurant, Meal, Order, OrderItem],
       }),
     }),
     AuthModule,
     UsersModule,
     RestaurantsModule,
-    MealsModule
+    MealsModule,
+    OrdersModule
   ],
 })
 export class AppModule {}
