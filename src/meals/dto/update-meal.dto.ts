@@ -1,5 +1,18 @@
-// src/meals/dto/update-meal.dto.ts
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateMealDto } from './create-meal.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNumber, IsOptional, IsString, Min } from 'class-validator';
 
-export class UpdateMealDto extends PartialType(CreateMealDto) {}
+export class UpdateMealDto {
+    @ApiProperty()
+    @IsString()
+    name: string;
+
+    @ApiProperty()
+    @IsString()
+    @IsOptional()
+    description?: string;
+
+    @ApiProperty()
+    @IsNumber()
+    @Min(0)
+    price: number;
+}

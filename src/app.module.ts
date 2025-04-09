@@ -24,7 +24,7 @@ import { AppService } from './app.service';
         username: config.get('database.username'),
         password: config.get('database.password'),
         database: config.get('database.name'),
-        synchronize: true,
+        synchronize: false,  //make it true if no migration is being used.
         autoLoadEntities: true,
       }),
     }),

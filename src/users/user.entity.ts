@@ -6,7 +6,7 @@ import {
     UpdateDateColumn,
     OneToMany,
   } from 'typeorm';
-  import { Restaurant } from 'src/restaurants/restaurant.entity'; // Update the path if needed
+  import { Restaurant } from '../restaurants/restaurant.entity'; 
   
   export enum UserRole {
     Customer = 'Customer',

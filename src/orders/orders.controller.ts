@@ -11,8 +11,8 @@ import {
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { JwtAuthGuard } from '../auth/gaurds/jwt_auth.gaurd';
-import { RolesGuard } from 'src/common/gaurds/roles.gaurd';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from '../common/gaurds/roles.gaurd';
+import { Roles } from '../common/decorators/roles.decorator';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { User, UserRole } from '../users/user.entity';
 import { Request as RequestProp } from 'express';
