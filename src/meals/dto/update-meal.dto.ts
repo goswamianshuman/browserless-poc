@@ -14,5 +14,5 @@ export class UpdateMealDto {
     @ApiProperty()
     @IsNumber()
     @Min(0)
-    price: number;
+    price?: number;
 }

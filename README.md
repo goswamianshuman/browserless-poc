@@ -216,7 +216,20 @@ Roles:
 ___
 ## 🧪 Testing (Optional)
 
+**note: if you are running the test case, please empty all the tables. as test cases run by creating data by it self for promissing senarios.**
+```sql
+-- Deletes must respect foreign key dependencies (child ➜ parent)
+    DELETE FROM order_items;
+    DELETE FROM orders;
+    DELETE FROM meals;
+    DELETE FROM restaurants;
+    DELETE FROM users;
+```
+
 ```bash
+# unit tests
+npm run test
+
 # E2E tests 
 npm run test:e2e
 ```

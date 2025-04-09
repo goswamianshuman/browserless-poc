@@ -1,4 +1,5 @@
 // src/meals/meals.service.ts
+
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -11,38 +12,55 @@ import { User } from '../users/user.entity';
 @Injectable()
 export class MealsService {
   constructor(
-    @InjectRepository(Meal) private mealRepo: Repository<Meal>,
-    @InjectRepository(Restaurant) private restaurantRepo: Repository<Restaurant>,
+    @InjectRepository(Meal) private readonly mealRepo: Repository<Meal>,
+    @InjectRepository(Restaurant) private readonly restaurantRepo: Repository<Restaurant>,
   ) {}
 
-  async create(restaurantId: string, dto: CreateMealDto, user: User): Promise<Meal> {
+  async create(
+    restaurantId: string,
+    dto: CreateMealDto,
+    user: User,
+  ): Promise<Meal> {
     const restaurant = await this.restaurantRepo.findOne({
       where: { id: restaurantId },
       relations: ['owner'],
     });
-
-    if (!restaurant) throw new NotFoundException('Restaurant not found');
-    if (restaurant.owner.id !== user.id) throw new ForbiddenException('Not your restaurant');
+    if (!restaurant) {
+      throw new NotFoundException('Restaurant not found');
+    }
+    if (restaurant.owner.id !== user.id) {
+      throw new ForbiddenException('Not your restaurant');
+    }
 
     const meal = this.mealRepo.create({ ...dto, restaurant });
     return this.mealRepo.save(meal);
   }
 
   async findByRestaurant(restaurantId: string): Promise<Meal[]> {
-    return this.mealRepo.find({ where: { restaurant: { id: restaurantId } } });
+    return this.mealRepo.find({
+      where: { restaurant: { id: restaurantId } },
+    });
   }
 
-  async update(id: string, dto: UpdateMealDto, user: User): Promise<Meal> {
+  async update(
+    id: string,
+    dto: UpdateMealDto,
+    user: User,
+  ): Promise<Meal> {
     const meal = await this.mealRepo.findOne({
       where: { id },
       relations: ['restaurant', 'restaurant.owner'],
     });
-
-    if (!meal) throw new NotFoundException('Meal not found');
-    if (meal.restaurant.owner.id !== user.id) throw new ForbiddenException('Unauthorized');
+    if (!meal) {
+      throw new NotFoundException('Meal not found');
+    }
+    if (meal.restaurant.owner.id !== user.id) {
+      throw new ForbiddenException('Not your meal');
+    }
 
     Object.assign(meal, dto);
-    return this.mealRepo.save(meal);
+    await this.mealRepo.save(meal);
+    return meal;
   }
 
   async remove(id: string, user: User): Promise<void> {
@@ -50,9 +68,12 @@ export class MealsService {
       where: { id },
       relations: ['restaurant', 'restaurant.owner'],
     });
-
-    if (!meal) throw new NotFoundException('Meal not found');
-    if (meal.restaurant.owner.id !== user.id) throw new ForbiddenException('Unauthorized');
+    if (!meal) {
+      throw new NotFoundException('Meal not found');
+    }
+    if (meal.restaurant.owner.id !== user.id) {
+      throw new ForbiddenException('Not your meal');
+    }
 
     await this.mealRepo.delete(id);
   }

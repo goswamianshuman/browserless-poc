@@ -11,7 +11,7 @@ import { User } from '../users/user.entity';
 export class RestaurantsService {
   constructor(
     @InjectRepository(Restaurant)
-    private restaurantsRepository: Repository<Restaurant>,
+    private readonly restaurantsRepository: Repository<Restaurant>,
   ) {}
 
   async create(createRestaurantDto: CreateRestaurantDto, owner: User): Promise<Restaurant> {

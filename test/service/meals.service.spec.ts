@@ -80,13 +80,13 @@ describe('MealsService', () => {
   describe('update', () => {
     it('should throw if meal not found', async () => {
       mockMealRepo.findOne.mockResolvedValue(null);
-      await expect(service.update('meal-id', {}, mockUser)).rejects.toThrow(NotFoundException);
+      await expect(service.update('meal-id', {name: 'Pizza',price: 10, description: 'Delicious'}, mockUser)).rejects.toThrow(NotFoundException);
     });
 
     it('should throw if user is not owner', async () => {
       const meal = { restaurant: { owner: { id: 'someone-else' } } };
       mockMealRepo.findOne.mockResolvedValue(meal);
-      await expect(service.update('meal-id', {}, mockUser)).rejects.toThrow(ForbiddenException);
+      await expect(service.update('meal-id', {name: 'Pizza',price: 10, description: 'Delicious'}, mockUser)).rejects.toThrow(ForbiddenException);
     });
 
     it('should update and return meal', async () => {
@@ -96,10 +96,14 @@ describe('MealsService', () => {
         restaurant: { owner: mockUser },
       };
       mockMealRepo.findOne.mockResolvedValue(meal);
-      mockMealRepo.save.mockResolvedValue({ ...meal, name: 'Burger' });
+      mockMealRepo.save.mockResolvedValue({ ...meal, name: 'Pizza' });
 
-      const result = await service.update('meal-id', { name: 'Burger' }, mockUser);
-      expect(result).toEqual({ ...meal, name: 'Burger' });
+      const result = await service.update('meal-id', {
+        name: 'Pizza',
+        price: 2,
+        description: 'Delicious',
+      }, mockUser);
+      expect(result).toEqual({ ...meal, name: 'Pizza' });
     });
   });
 

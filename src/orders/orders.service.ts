@@ -80,10 +80,12 @@ export class OrdersService {
   async findOne(id: string, user: User): Promise<Order> {
     const order = await this.orderRepo.findOne({
       where: { id },
-      relations: ['items', 'items.meal', 'restaurant', 'rider'],
+      relations: ['customer', 'items', 'items.meal', 'restaurant', 'rider'],
     });
     if (!order) throw new NotFoundException('Order not found');
-    if (order.customer.id !== user.id) throw new ForbiddenException('Not your order');
+    if (!order.customer || order.customer.id !== user.id) {
+      throw new ForbiddenException('Not your order');
+    }
     return order;
   }
 
