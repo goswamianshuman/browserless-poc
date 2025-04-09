@@ -31,6 +31,7 @@ This is a full-featured **Food Delivery Backend API** built with **NestJS**, **T
 
 ## ⚙️ Project Structure
 
+```
 📦 src/
 ├─ 📂 auth/                  # Authentication & Guards
 ├─ 📂 users/                # User entity and logic
@@ -46,7 +47,7 @@ This is a full-featured **Food Delivery Backend API** built with **NestJS**, **T
 ├─ 📜 app.service.ts       # Main service
 ├─ 📜 main.ts              # App entry point
 📂 test/                   # Test directory (outside src)
-
+```
 ---
 ### 🧱 **Architecture Type: Modular Monolith**
 
