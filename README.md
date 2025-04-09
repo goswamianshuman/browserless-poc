@@ -63,7 +63,7 @@ Create a `.env` file based on the provided `.env.example`:
 
 ```env
 # Database configuration
-DB_HOST=127.0.0.1
+DB_HOST=db
 DB_PORT=5432
 DB_USER=postgres
 DB_PASS=root
