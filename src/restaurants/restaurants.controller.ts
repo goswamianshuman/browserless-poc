@@ -13,10 +13,10 @@ import { RestaurantsService } from './restaurants.service';
 import { CreateRestaurantDto } from './dto/create-restorant.dto';
 import { UpdateRestaurantDto } from './dto/update-restorant.dto';
 import { JwtAuthGuard } from '../auth/gaurds/jwt_auth.gaurd';
-import { RolesGuard } from 'src/common/gaurds/roles.gaurd';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from '../common/gaurds/roles.gaurd';
+import { Roles } from '../common/decorators/roles.decorator';
 import { Request as RequestProp } from 'express';
-import { User, UserRole } from 'src/users/user.entity';
+import { User, UserRole } from '../users/user.entity';
 import { RestaurantResponseDto } from './dto/response.dto';
 import {
   ApiTags,

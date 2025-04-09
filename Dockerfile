@@ -1,27 +1,31 @@
-# ---------- Development Stage ----------
-FROM node:22 AS development
+# ---------- Base Stage ----------
+FROM node:22 AS base
 
 WORKDIR /app
-
 COPY package*.json ./
-RUN npm install
 
+# ---------- Development Stage ----------
+FROM base AS development
+
+RUN npm install
 COPY . .
 
-# Optional: for hot reload (used with start:dev)
+# Optional CLI for dev tools and hot reload
 RUN npm install --save-dev @nestjs/cli
+
+# Rebuild the app for dev
 RUN npm run build
 
+CMD ["npm", "run", "start:dev"]
+
 # ---------- Production Stage ----------
-FROM node:22 AS production
+FROM base AS production
 
-WORKDIR /app
-
-COPY package*.json ./
 RUN npm install --omit=dev
-
-COPY --from=development /app/dist ./dist
+COPY . .
+RUN npm run build
 
 EXPOSE 8000
 
-CMD ["node", "dist/main"]
+CMD ["npm", "run", "start:prod"]
+    

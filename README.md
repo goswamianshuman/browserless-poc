@@ -31,8 +31,6 @@ This is a full-featured **Food Delivery Backend API** built with **NestJS**, **T
 
 ## ⚙️ Project Structure
 
-```bash
-
 📦 src/
 ├─ 📂 auth/                  # Authentication & Guards
 ├─ 📂 users/                # User entity and logic
@@ -48,8 +46,6 @@ This is a full-featured **Food Delivery Backend API** built with **NestJS**, **T
 ├─ 📜 app.service.ts       # Main service
 ├─ 📜 main.ts              # App entry point
 📂 test/                   # Test directory (outside src)
-
-```
 
 ---
 ### 🧱 **Architecture Type: Modular Monolith**
@@ -91,6 +87,7 @@ Ensure that credentials match what's used in `docker-compose.yml`.
 ```bash
 # Replace these placeholders accordingly:
 target: <deployment-type>      # ➤ Use either `development` or `production`
+command: npm run start:<dev || prod> # ➤ for development use `dev`, for production use `prod`
 POSTGRES_USER: <username>      # ➤ Example: postgres
 POSTGRES_PASSWORD: <password>  # ➤ Example: postgres
 ```
@@ -101,12 +98,27 @@ POSTGRES_PASSWORD: <password>  # ➤ Example: postgres
 
 ```yaml
 
-target: development 
+target: development
 ... 
 POSTGRES_USER: postgres 
 POSTGRES_PASSWORD: postgres
 
 ```
+
+
+> ✅ **Recommended Fix**
+> 
+> If you're using manual **migrations and seed scripts** (like `migration.sql` & `seed.sql`):
+
+```typescript
+TypeOrmModule.forRoot({   
+ synchronize: false, // ✅ Disable sync when using migrations   
+ autoLoadEntities: true
+});
+```
+
+> Set `synchronize: true` only in development **if you're not using migrations**, to auto-create tables.
+
 
 ---
 
@@ -144,13 +156,34 @@ docker-compose up --build
 ```
 
 ___
-## 📚 Swagger API Docs
+## 🧩 Database: Migration & Seeding
 
-Once the server is up, go to:
+Upon first run, two SQL scripts are applied automatically:
 
-👉 `http://localhost:8000/api-docs`
+|File|Description|
+|---|---|
+|`db/migration.sql`|Creates all necessary tables, types, and triggers|
+|`db/seed.sql`|Inserts initial users and restaurant/menu data|
 
-All available endpoints are documented and grouped by module.
+✅ These are mounted via `docker-compose` and run automatically on container start.
+___
+## 🔑 Swagger API Docs
+
+👉 Visit: **[http://localhost:8000/api-docs](http://localhost:8000/api-docs)**
+
+All routes are grouped and documented by module. Role restrictions are noted per endpoint.
+
+### ✅ Sample Login Credentials (for Swagger testing)
+
+You can use these accounts to test with different roles:
+
+|Role|Email|Password|
+|---|---|---|
+|Customer|woods@gmail.com|12345|
+|Restaurant Owner|jhon@gmail.com|12345|
+|Delivery Rider|bob@gmail.com|12345|
+
+> 🔐 Click **"Authorize"** at the top-right and paste the JWT token from `/auth/login`.
 
 ---
 
@@ -180,9 +213,6 @@ ___
 ## 🧪 Testing (Optional)
 
 ```bash
-# Unit tests 
-npm run test
-
 # E2E tests 
 npm run test:e2e
 ```

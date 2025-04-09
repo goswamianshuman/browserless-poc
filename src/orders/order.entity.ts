@@ -5,12 +5,11 @@ import {
     ManyToOne,
     OneToMany,
     CreateDateColumn,
-    UpdateDateColumn,
     JoinColumn,
   } from 'typeorm';
-  import { User } from 'src/users/user.entity';
-  import { Restaurant } from 'src/restaurants/restaurant.entity';
-  import { OrderItem } from 'src/order-items/order-items.entity';
+  import { User } from '../users/user.entity';
+  import { Restaurant } from '../restaurants/restaurant.entity';
+  import { OrderItem } from '../order-items/order-items.entity';
   
   export enum OrderStatus {
     PENDING = 'pending',

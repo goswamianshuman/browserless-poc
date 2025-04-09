@@ -7,6 +7,7 @@ import {
     Min,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 class OrderItemDto {
     @IsUUID()
@@ -18,9 +19,11 @@ class OrderItemDto {
 }
 
 export class CreateOrderDto {
+    @ApiProperty()
     @IsUUID()
     restaurantId: string;
 
+    @ApiProperty()
     @IsArray()
     @ArrayMinSize(1)
     @ValidateNested({ each: true })
