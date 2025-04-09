@@ -1,3 +1,7 @@
+-- Note: This file is used to seed the database with initial data.
+-- i will recommend to test all things with new data and not with the old data.
+-- This file is not used in production, but it is useful for local development.
+
 -- Enable required extensions
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
