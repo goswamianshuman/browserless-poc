@@ -24,7 +24,7 @@ describe('Food Delivery Backend (e2e)', () => {
     app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
     // bind to ephemeral port
     await app.listen(0);
-    const address = app.getHttpServer().address() as any;
+    const address = app.getHttpServer().address();
     serverUrl = `http://localhost:${address.port}`;
 
     // helper: register (ignore dupes) + login => token
