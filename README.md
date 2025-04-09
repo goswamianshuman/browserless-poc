@@ -170,6 +170,9 @@ Upon first run, two SQL scripts are applied automatically:
 ___
 ## 🔑 Swagger API Docs
 
+**note: if not using swagger there is postman-collection.json in code base use that in postman**
+
+
 👉 Visit: **[http://localhost:8000/api-docs](http://localhost:8000/api-docs)**
 
 All routes are grouped and documented by module. Role restrictions are noted per endpoint.
