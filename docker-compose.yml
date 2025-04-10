@@ -29,8 +29,8 @@ services:
       POSTGRES_DB: food_delivery
     volumes:
       - pgdata:/var/lib/postgresql/data
-      # remove the below lines if u do not need any migration or data seeding.
       - ./db/migration.sql:/docker-entrypoint-initdb.d/1-migration.sql
+      # remove the below lines if u do not need any data seeding.
       - ./db/seed.sql:/docker-entrypoint-initdb.d/2-seed.sql
 
 volumes:

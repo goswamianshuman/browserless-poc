@@ -21,8 +21,11 @@ CMD ["npm", "run", "start:dev"]
 # ---------- Production Stage ----------
 FROM base AS production
 
-RUN npm install --omit=dev
+RUN npm install
 COPY . .
+
+RUN npm install --save-dev @nestjs/cli
+
 RUN npm run build
 
 EXPOSE 8000
