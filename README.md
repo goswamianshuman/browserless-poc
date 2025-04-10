@@ -4,8 +4,6 @@ This is a full-featured **Food Delivery Backend API** built with **NestJS**, **T
 
 ## 🎥 Video Demonstration [Watch the demo on Dropbox](https://www.dropbox.com/scl/fi/rryii9i5m9ze8w4r02znb/browserless.io.mp4?rlkey=kce0wk6d28i2ps1ob0txz66wi&st=cn5qma5c&dl=0)
 
----
-
 ## 🚀 Features
 
 - 🔐 JWT Authentication with Role-based Access (`Customer`, `RestaurantOwner`, `DeliveryRider`)
