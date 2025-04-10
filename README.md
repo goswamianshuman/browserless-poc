@@ -111,15 +111,17 @@ POSTGRES_PASSWORD: postgres
 > 
 > If you're using manual **migrations and seed scripts** (like `migration.sql` & `seed.sql`):
 
-```typescript
-TypeOrmModule.forRoot({   
- synchronize: false, // ✅ Disable sync when using migrations   
- autoLoadEntities: true
-});
 ```
+TypeOrmModule.forRoot({
+  // ...
+  synchronize: process.env.NODE_ENV !== 'production',
+  autoLoadEntities: true,
+  namingStrategy: new SnakeNamingStrategy(),
+});
 
-> Set `synchronize: true` only in development **if you're not using migrations**, to auto-create tables.
-
+```
+> Development (NODE_ENV=development): synchronize: true will auto-create/update tables.
+> Production/Docker (NODE_ENV=production): synchronize: false ensures your hand-written migrations drive schema changes.
 
 ---
 
@@ -155,8 +157,8 @@ Run:
 ```bash
 docker-compose up --build
 ```
-
 ___
+
 ## 🧩 Database: Migration & Seeding
 
 Upon first run, two SQL scripts are applied automatically:
@@ -183,9 +185,9 @@ You can use these accounts to test with different roles:
 
 |Role|Email|Password|
 |---|---|---|
-|Customer|woods@gmail.com|12345|
-|Restaurant Owner|jhon@gmail.com|12345|
-|Delivery Rider|bob@gmail.com|12345|
+|Customer|customer@gmail.com|12345|
+|Restaurant Owner|restaurant@gmail.com|12345|
+|Delivery Rider|rider@gmail.com|12345|
 
 > 🔐 Click **"Authorize"** at the top-right and paste the JWT token from `/auth/login`.
 

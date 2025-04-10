@@ -1,63 +1,102 @@
--- Note: This file is used to seed the database with initial data.
--- i will recommend to test all things with new data and not with the old data.
--- This file is not used in production, but it is useful for local development.
+-- 2. Seed initial users
+INSERT INTO users (
+  id, name, email, password_hash, role, created_at, updated_at
+) VALUES
+  (
+    '06ff6443-a67d-4c15-9169-358e8d572d7c',
+    'customer',
+    'customer@gmail.com',
+    '$2b$10$yZRPtzmmtzmEY.hHh8zXr.6uFsiXAgQaIp12yg1pJOLAbg6m3Y8Cq',
+    'Customer',
+    '2025-04-10 09:52:10.620+05:30',
+    '2025-04-10 09:52:10.620+05:30'
+  ),
+  (
+    '693b4222-88d7-45c8-894f-31b98788ed0e',
+    'RestaurantOwner',
+    'restaurant@gmail.com',
+    '$2b$10$nvml9JBpZnQohDWRyxCgOu/duAes9pZetsZa6h2udXI4ZIW.BbEb2',
+    'RestaurantOwner',
+    '2025-04-10 09:58:21.259+05:30',
+    '2025-04-10 09:58:21.259+05:30'
+  ),
+  (
+    '3fb222bb-d3e4-418e-a07e-202d08679272',
+    'rider',
+    'rider@gmail.com',
+    '$2b$10$1i8EgYzHmOtkLFjsYBz43OoK/2jYIbZI8i2/BDUp4sTsxZAffc30q',
+    'DeliveryRider',
+    '2025-04-10 10:02:17.095+05:30',
+    '2025-04-10 10:02:17.095+05:30'
+  );
 
--- Enable required extensions
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+-- 3. Seed restaurants
+INSERT INTO restaurants (
+  id, name, description, owner_id, created_at, updated_at
+) VALUES
+  (
+    '7e39c59c-52e8-411b-a80c-34b84b8606f5',
+    'Pizzeria',
+    'we make pizza from heart',
+    '693b4222-88d7-45c8-894f-31b98788ed0e',
+    '2025-04-10 09:59:05.755+05:30',
+    '2025-04-10 09:59:44.433+05:30'
+  );
 
--- Insert users
-INSERT INTO users (id, name, email, password_hash, role)
-VALUES
-  ('b3a50ef6-c0ba-48e9-8bfa-cbec60d88bf6', 'Bob the builder', 'Bob@gmail.com',
-   '$2b$10$eYQzRG/hARkftvx913M4eeYCrVMs3may3jywrbkoupMaw83OjZxNi', 'DeliveryRider'),
+-- 4. Seed meals
+INSERT INTO meals (
+  id, restaurant_id, name, description, price, created_at, updated_at
+) VALUES
+  (
+    '24196783-3ddb-4a6e-8ac8-b6feb372b509',
+    '7e39c59c-52e8-411b-a80c-34b84b8606f5',
+    'margarita',
+    'simple cheese pizza',
+    8.00,
+    '2025-04-10 10:00:26.883+05:30',
+    '2025-04-10 10:00:26.883+05:30'
+  ),
+  (
+    '397be912-63ad-4300-9462-37ec48cc520d',
+    '7e39c59c-52e8-411b-a80c-34b84b8606f5',
+    'pessto',
+    'a pesto sause pizza',
+    10.00,
+    '2025-04-10 10:00:53.672+05:30',
+    '2025-04-10 10:00:53.672+05:30'
+  );
 
-  ('33ec890a-764b-4264-965d-19450790edb5', 'Jhon Abacus', 'Jhon@gmail.com',
-   '$2b$10$eoNJ3wL232njnN.gbWLJY.ViBvCthLrEI7zTgShxdS2xhjpnoevue', 'RestaurantOwner'),
-
-  ('7f3ad665-f15e-42dc-a009-ce34c6ee7864', 'William Woods', 'woods@gmail.com',
-   '$2b$10$UrW3i2vDG5naBkJfuX8BReHlkwYsjeqs/szwZ3K0txQ9X2oZ1CdlS', 'Customer');
-
--- Insert restaurant
-INSERT INTO restaurants (id, name, description, owner_id)
-VALUES (
-  '85b65ce7-bfbe-4648-8481-0312b40bc582',
-  'Seedy’s Kitchen',
-  'Tasty meals by seed script.',
-  '33ec890a-764b-4264-965d-19450790edb5' -- Jhon the owner
-);
-
--- Insert menu item
-INSERT INTO meals (id, restaurant_id, name, description, price)
-VALUES (
-  '1fec69cc-c586-45d7-8c6d-4dd590fe1f66',
-  '85b65ce7-bfbe-4648-8481-0312b40bc582',
-  'Seeded Burger',
-  'Juicy seeded test burger',
-  9.99
-);
-
--- Insert order
+-- 5. Seed orders
 INSERT INTO orders (
-  id, customer_id, restaurant_id, rider_id,
-  status, ordered_at, picked_up_at, delivered_at
-)
-VALUES (
-  '33333333-aaaa-bbbb-cccc-444444444444',
-  '7f3ad665-f15e-42dc-a009-ce34c6ee7864',  -- William
-  '85b65ce7-bfbe-4648-8481-0312b40bc582',  -- Seedy’s Kitchen
-  'b3a50ef6-c0ba-48e9-8bfa-cbec60d88bf6',  -- Bob
-  'picked_up',
-  NOW(),
-  NOW(),
-  NULL
-);
+  id, customer_id, restaurant_id, rider_id, status,
+  ordered_at, picked_up_at, delivered_at
+) VALUES
+  (
+    '9e32c6f6-924f-402d-9ade-e2deea52844d',
+    '06ff6443-a67d-4c15-9169-358e8d572d7c',
+    '7e39c59c-52e8-411b-a80c-34b84b8606f5',
+    '3fb222bb-d3e4-418e-a07e-202d08679272',
+    'delivered',
+    '2025-04-10 10:05:13.101+05:30',
+    '2025-04-10 10:22:36.075+05:30',
+    '2025-04-10 10:22:58.828+05:30'
+  );
 
--- Insert order item
-INSERT INTO order_items (id, order_id, meal_id, quantity, unit_price)
-VALUES (
-  '44444444-aaaa-bbbb-cccc-555555555555',
-  '33333333-aaaa-bbbb-cccc-444444444444',
-  '22222222-aaaa-bbbb-cccc-333333333333',
-  2,
-  9.99
-);
+-- 6. Seed order_items
+INSERT INTO order_items (
+  id, order_id, meal_id, quantity, unit_price
+) VALUES
+  (
+    'ef9e5f27-0c9b-4f18-aeb1-b4437461fecf',
+    '9e32c6f6-924f-402d-9ade-e2deea52844d',
+    '24196783-3ddb-4a6e-8ac8-b6feb372b509',
+    2,
+    8.00
+  ),
+  (
+    'd9558f97-6fbe-4ce3-81e4-c81d8cd64d1a',
+    '9e32c6f6-924f-402d-9ade-e2deea52844d',
+    '397be912-63ad-4300-9462-37ec48cc520d',
+    1,
+    10.00
+  );

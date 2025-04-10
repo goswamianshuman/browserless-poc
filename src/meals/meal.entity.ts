@@ -5,7 +5,6 @@ import {
     ManyToOne,
     CreateDateColumn,
     UpdateDateColumn,
-    JoinColumn,
   } from 'typeorm';
   import { Restaurant } from '../restaurants/restaurant.entity';
   
@@ -24,7 +23,6 @@ import {
     price: number;
   
     @ManyToOne(() => Restaurant, (restaurant) => restaurant.meals, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'restaurant_id' }) 
     restaurant: Restaurant;
   
     @CreateDateColumn({ name: 'created_at' })

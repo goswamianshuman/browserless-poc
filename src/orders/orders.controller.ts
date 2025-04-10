@@ -49,6 +49,14 @@ export class OrdersController {
     return this.ordersService.findMyOrders(user);
   }
 
+  @Get('orders/available')
+  @Roles(UserRole.DeliveryRider)
+  @ApiOperation({ summary: 'List available orders (Rider)' })
+  @ApiResponse({ status: 200, description: 'Unassigned orders list' })
+  findAvailable() {
+    return this.ordersService.findAvailableOrders();
+  }
+
   @Get('orders/:id')
   @Roles(UserRole.Customer, UserRole.DeliveryRider)
   @ApiOperation({ summary: 'Get a specific order (Customer or Rider)' })
@@ -59,14 +67,6 @@ export class OrdersController {
   ) {
     const user = req.user as User;
     return this.ordersService.findOne(id, user);
-  }
-
-  @Get('orders/available')
-  @Roles(UserRole.DeliveryRider)
-  @ApiOperation({ summary: 'List available orders (Rider)' })
-  @ApiResponse({ status: 200, description: 'Unassigned orders list' })
-  findAvailable() {
-    return this.ordersService.findAvailableOrders();
   }
 
   @Post('orders/:id/accept')
